@@ -5,6 +5,8 @@ from typing import Optional, List, Union, Callable
 
 load_dotenv('../../.env')
 
+# llm = AssistantBot()
+
 class MultiStepTransformer:
     def __init__(self, llm: Union[LLM, str] = llm):
         """

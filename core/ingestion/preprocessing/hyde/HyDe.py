@@ -8,7 +8,7 @@ from typing import Any, Union, List
 warnings.filterwarnings("ignore")
 load_dotenv("../../.env")
 
-# llm = RagoonBot()
+# llm = AssistantBot()
 
 class HyDETransformer(HyDEQueryTransform):
     def __init__(self, 
