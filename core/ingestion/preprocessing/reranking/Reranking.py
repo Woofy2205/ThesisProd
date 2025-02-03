@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv('../../.env')
 
-llm = RagoonBot()
+# llm = RagoonBot()
 
 RERANK_PROMPT = f"""
 Please rate the relevance of the following response to the given reference on a scale of 0 to 1. \n
