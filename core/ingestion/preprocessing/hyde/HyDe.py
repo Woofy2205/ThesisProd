@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 from llama_index.core.indices.query.query_transform import HyDEQueryTransform
 from llama_index.core.llms import LLM
 
-#import Assistant LLM from the project
 from core.llm.AssistantLLM import AssistantBot
 
 warnings.filterwarnings("ignore")

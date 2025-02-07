@@ -1,11 +1,14 @@
 import os
-from llama_index.core.llms import LLM
+from typing import Callable, List, Optional, Union
+
 from dotenv import load_dotenv
-from typing import Optional, List, Union, Callable
+from llama_index.core.llms import LLM
+
+from core.llm.AssistantLLM import AssistantBot
 
 load_dotenv('../../.env')
 
-# llm = AssistantBot()
+llm = AssistantBot()
 
 class MultiStepTransformer:
     def __init__(self, llm: Union[LLM, str] = llm):
@@ -14,7 +17,14 @@ class MultiStepTransformer:
 
         :param llm: LLM, default None. The LLM model to use.
         """
-
+        if isinstance(llm, str):
+            try:
+                self.llm = AssistantBot(model=llm)
+            except Exception as e:
+                raise Exception(f"Error initializing LLM model: {str(e)}")
+        else:
+            self.llm = llm
+        
         self.max_queries = 3
 
     def transform(self, text: Union[str, List[str], List[List[str]]],
