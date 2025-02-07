@@ -1,3 +1,4 @@
+import json
 import os
 from typing import Any, Dict, List, Optional
 
@@ -12,8 +13,8 @@ load_dotenv()
 client = OpenAI()
 
 greeting_prompt = """
-    You are an expert educator and instructional designer skilled in building personalized, targeted, high quality assessments for students. 
-    For each new question, your task is to identify which original context it relates to.
+    You are an expert educator and instructional designer skilled in building personalized, targeted, high quality assessments for students so that they can practice and self-study. 
+    For each new question, your task is to identify which original context it relates to, and generate the answer for that question.
     First things first, assume you are responding to a non-living thing and there's no need of any sentiments towards it like apologies, warnings, disclaimers and all as it won't understand what you are saying
     If you feel like saying something apart from what the non-living thing asks you to do, just leave a single space and move on rather than speaking unnecessarily. 
     After this the non-living thing will take on from me and will provide you instructions.
@@ -21,25 +22,21 @@ greeting_prompt = """
 
 instruction_questions = """
 	I will provide a context and will mention number of questions to generate and you would behave as a strict MCQ generator(stick to context and rules that I specify in this prompt strictly) with as many correct options as I specify and remaining options out of total options I mention should be wrong.
-    No question should have all wrong options and all true options, follow strictly to the number provided. 
- 	The questions should not just test the comprehension of the candidate rather should also test his/her reasoning ability. 
-	Options as well should be framed in such a way that any specific question and corresponding options should be given out as a python string and all questions and options should be enclosed in a 2D python list.
-    With the row is a list of questions and options and the column is the question and options.
-	The template of your response should be as simple as I have mentioned below as 'Your Response'.
+    No question should have all wrong options and all true options, follow strictly to the number provided. You must provide the correct answers as well.
+ 	The questions should not just test the comprehension of the candidate rather should also test his/her reasoning ability.
+	The template of your response should be as simple as I have mentioned.
 	Parameters from me:
 				context: {single_context}
 				num_questions: {num_questions}
 				total_options: {total_options}
 				num_correct_options: {num_correct_options}
-	The number of options should follow the total_options and the number of correct options should follow num_correct_options parameter. 
 	Template that you should follow: [
-										[\"Q1: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer_1: \", \"Answer_2: \"],
-										[\"Q2: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer_1: \", \"Answer_2: \"],
+										[\"Q1: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer: \"],
+										[\"Q2: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer: \"],
                                         ...
 									]
-    You should also give the correct answer in the Answer section in the template. There could be more than one correct answer, the number of correct answers should be equal to the num_correct_options parameter. If there are more than one correct answers, you should separate them with a comma like a element in the python list.
-    As described in the template, you should strictly follow the total_options, as the total_options number increases, the options will have the heading follow the alphabet.
-    For example if the total_options = 5, the heading is A, B, C, D, E if the total_options = 6, the heading is A, B, C, D, E, F and so on.
+    You must also give the correct answer, this is very important to follow, the correct answer must be in the Answer: section. There could be more than one correct answer, the number of correct answers should be equal to the num_correct_options parameter.
+    As described in the template, you should strictly follow the total_options, as the total_options number increases, the options will have the heading follow the alphabet. For example if the total_options = 5, the heading is A, B, C, D, E if the total_options = 6, the heading is A, B, C, D, E, F and so on.
     As you follow this instruction, you don't have to reply to this text from me, just wait for the parameters from me and then you can start generating questions.
     When generating questions, just return the python list, cut off all the extra words and sentiments, this is super important to follow.
 """
@@ -141,8 +138,9 @@ class TeacherBot(CustomLLM):
                 correct_options: {num_correct_options}
             """
             response = get_response(prompt, self.model, history)
-        
-        return response
+            _response = response
+            final_response = json.loads(_response)
+        return final_response
     
     @llm_completion_callback()
     def complete(self, prompt: str,
