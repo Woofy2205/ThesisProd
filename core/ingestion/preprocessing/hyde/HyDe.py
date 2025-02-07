@@ -1,14 +1,18 @@
 import os
 import warnings
+from typing import Any, List, Union
+
+from dotenv import load_dotenv
 from llama_index.core.indices.query.query_transform import HyDEQueryTransform
 from llama_index.core.llms import LLM
-from dotenv import load_dotenv
-from typing import Any, Union, List
+
+#import Assistant LLM from the project
+from core.llm.AssistantLLM import AssistantBot
 
 warnings.filterwarnings("ignore")
 load_dotenv("../../.env")
 
-# llm = AssistantBot()
+llm = AssistantBot()
 
 class HyDETransformer(HyDEQueryTransform):
     def __init__(self, 
@@ -22,7 +26,11 @@ class HyDETransformer(HyDEQueryTransform):
         :param hyde_prompt: str, default None. The prompt to use for the HyDE model.
         :param include_original: bool, default True. Whether to include the original text in the output.
         """
-            
+        if isinstance(llm, str):
+            self.llm = AssistantBot(model=llm)
+        else:
+            self.llm = llm
+        
         super().__init__(
             llm=self.llm,
             hyde_prompt=hyde_prompt,
