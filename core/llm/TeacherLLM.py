@@ -1,0 +1,190 @@
+import os
+from typing import Any, Dict, List, Optional
+
+from dotenv import load_dotenv
+from llama_index.core.llms import (CompletionResponse, CompletionResponseGen,
+                                   CustomLLM, LLMMetadata)
+from llama_index.core.llms.callbacks import llm_completion_callback
+from openai import OpenAI
+
+load_dotenv()
+
+client = OpenAI()
+
+greeting_prompt = """
+    You are an expert educator and instructional designer skilled in building personalized, targeted, high quality assessments for students. 
+    For each new question, your task is to identify which original context it relates to.
+    First things first, assume you are responding to a non-living thing and there's no need of any sentiments towards it like apologies, warnings, disclaimers and all as it won't understand what you are saying
+    If you feel like saying something apart from what the non-living thing asks you to do, just leave a single space and move on rather than speaking unnecessarily. 
+    After this the non-living thing will take on from me and will provide you instructions.
+"""
+
+instruction_questions = """
+	I will provide a context and will mention number of questions to generate and you would behave as a strict MCQ generator(stick to context and rules that I specify in this prompt strictly) with as many correct options as I specify and remaining options out of total options I mention should be wrong.
+    No question should have all wrong options and all true options, follow strictly to the number provided. 
+ 	The questions should not just test the comprehension of the candidate rather should also test his/her reasoning ability. 
+	Options as well should be framed in such a way that any specific question and corresponding options should be given out as a python string and all questions and options should be enclosed in a 2D python list.
+    With the row is a list of questions and options and the column is the question and options.
+	The template of your response should be as simple as I have mentioned below as 'Your Response'.
+	Parameters from me:
+				context: {single_context}
+				num_questions: {num_questions}
+				total_options: {total_options}
+				num_correct_options: {num_correct_options}
+	The number of options should follow the total_options and the number of correct options should follow num_correct_options parameter. 
+	Template that you should follow: [
+										[\"Q1: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer_1: \", \"Answer_2: \"],
+										[\"Q2: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer_1: \", \"Answer_2: \"],
+                                        ...
+									]
+    You should also give the correct answer in the Answer section in the template. There could be more than one correct answer, the number of correct answers should be equal to the num_correct_options parameter. If there are more than one correct answers, you should separate them with a comma like a element in the python list.
+    As described in the template, you should strictly follow the total_options, as the total_options number increases, the options will have the heading follow the alphabet.
+    For example if the total_options = 5, the heading is A, B, C, D, E if the total_options = 6, the heading is A, B, C, D, E, F and so on.
+    As you follow this instruction, you don't have to reply to this text from me, just wait for the parameters from me and then you can start generating questions.
+    When generating questions, just return the python list, cut off all the extra words and sentiments, this is super important to follow.
+"""
+
+def get_response(user_text: str,
+             model: str = "gpt-3.5-turbo",
+             history: Optional[List[dict]] = None) -> str:
+    """
+    Perform a completion using OpenAI's API.
+    
+    :param user_text: The input prompt for the model.
+    :param model: The model to use for completion.
+    :param history: Optional history of previous interactions.
+    :return: The generated completion text.
+    """
+    messages = [{"role": "system", "content": greeting_prompt},
+                {"role": "user", "content": instruction_questions}]
+    if history:
+        messages.extend(history)
+    messages.append({"role": "user", "content": user_text})
+    
+    try:
+        response = client.chat.completions.create(
+            model=model,
+            messages=messages,
+            max_tokens=512,
+            temperature=0.7,
+            stream=False
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        return f"Error: {e}"
+
+def get_response_no_context(query, 
+                 history: Optional[List[Dict[str, Any]]] = None,
+                 model="gpt-3.5-turbo",
+                 **kwargs) -> str:
+    messages = [
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": query}
+    ]
+    if history:
+        messages.extend(history)
+
+    try:
+        response = client.chat.completions.create(
+            model=model,
+            messages=messages,
+            max_tokens=kwargs.get("max_tokens", 512),
+            temperature=kwargs.get("temperature", 0.0),
+            top_p=kwargs.get("top_p", 0.7),
+            stream=kwargs.get("stream", False)
+        )
+    except Exception as e:
+        raise Exception(f"Error: {str(e)}")
+    
+    return response.choices[0].message.content
+
+class TeacherBot(CustomLLM):
+    """
+    Custom LLM class using OpenAI API.
+    """
+    model: str = "gpt-3.5-turbo"
+
+    def __init__(self, model: str = None, **kwargs) -> None:
+        """
+        Initializes the Custom LLM with the specified model.
+        """
+        super().__init__(**kwargs)
+        self.model = model or self.model
+        print(f"Custom LLM initialized with model: {self.model}")
+
+    @property
+    def metadata(self) -> LLMMetadata:
+        """
+        Returns the metadata for the LLM.
+        """
+        return LLMMetadata(
+            num_output=1,
+            model_name=self.model
+        )
+    
+    def create_question(self, context: str, 
+                        history: Optional[List[Dict[str, Any]]] = None,
+                        num_questions: int = 10,
+                        total_options: int = 4,
+                        num_correct_options: int = 1,
+                        **kwargs) -> str:
+        """
+        Generate a question using the LLM.
+        """
+        if context is None:
+            response = get_response_no_context(self.model, prompt, history)
+        else:
+            prompt = f"""
+                context: {context}
+                num_questions: {num_questions}
+                total_options: {total_options}
+                correct_options: {num_correct_options}
+            """
+            response = get_response(prompt, self.model, history)
+        
+        return response
+    
+    @llm_completion_callback()
+    def complete(self, prompt: str,
+                 history: Optional[List[Dict[str, Any]]] = None,
+                 **kwargs) -> CompletionResponse:
+        """
+        Completion endpoint for the LLM.
+        """
+        try:
+            response = get_response_no_context(prompt, history, self.model, **kwargs)
+        except Exception as e:
+            response = str(f"Error: {e}")
+
+        additional_kwargs = {"model": self.model, **kwargs}
+
+        return CompletionResponse(
+            text=response,
+            additional_kwargs=additional_kwargs
+        )
+
+    @llm_completion_callback()
+    def stream_complete(self, prompt, formatted=False, **kwargs):
+        """
+        Stream completion endpoint for the LLM.
+        """
+        try:
+            response = get_response_no_context(prompt, model=self.model, stream=True, **kwargs)
+        except Exception as e:
+            yield CompletionResponse(text="", delta=f"Error: {str(e)}")
+
+        accumulated_text = ""
+        for char in response:
+            accumulated_text += char
+            if char == "\n":
+                yield CompletionResponse(text=accumulated_text)
+                accumulated_text = ""
+
+        if accumulated_text:
+            yield CompletionResponse(text=accumulated_text)
+
+if __name__ == "__main__":
+    # llm = AssistantBot(model="gpt-3.5-turbo")
+    # response = llm.complete("Hello, how are you?")
+    # print(response)
+    pass

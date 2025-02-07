@@ -1,13 +1,11 @@
 import os
-from llama_index.core.llms import (
-    CustomLLM,
-    CompletionResponse, CompletionResponseGen,
-    LLMMetadata
-)
+from typing import Any, Dict, List, Optional
+
+from dotenv import load_dotenv
+from llama_index.core.llms import (CompletionResponse, CompletionResponseGen,
+                                   CustomLLM, LLMMetadata)
 from llama_index.core.llms.callbacks import llm_completion_callback
 from openai import OpenAI
-from dotenv import load_dotenv
-from typing import Optional, List, Any, Dict
 
 load_dotenv()
 
@@ -15,7 +13,7 @@ client = OpenAI()
 
 def get_response(query, 
                  history: Optional[List[Dict[str, Any]]] = None,
-                 model="gpt-4-turbo",
+                 model="gpt-3.5-turbo",
                  **kwargs) -> str:
     messages = [
         {"role": "system", "content": "You are a helpful assistant."},
