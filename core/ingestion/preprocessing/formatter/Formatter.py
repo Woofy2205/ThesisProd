@@ -1,6 +1,9 @@
 import os
 import sys
+from typing import List
 from warnings import filterwarnings
+
+from llama_index.core.schema import BaseNode, TransformComponent
 
 filterwarnings('ignore')
 
