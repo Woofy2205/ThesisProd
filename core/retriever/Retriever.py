@@ -7,12 +7,14 @@ from llama_index.core import SimpleDirectoryReader, VectorStoreIndex
 from llama_index.core.indices.vector_store.retrievers import \
     VectorIndexRetriever
 
+from core.llm.AssistantLLM import AssistantBot
+
+llm = AssistantBot()
 
 class Retriever(VectorStoreIndex):
     """
     Retriever class for the vector store index.
     """    
-
     vector_store_index: VectorStoreIndex = None,
     
     def __init__(self, 
@@ -49,8 +51,11 @@ class Retriever(VectorStoreIndex):
         :return: str. The context.
         """
         _context = retriever.retrieve(query)
-        context = ""
+        paragraph = ""
         for cot in _context:
-            context += cot.text
-        context = context.replace("\n", "")
+            paragraph += cot.text
+        paragraph = paragraph.replace("\n", " ")
+        prompt = f"Clean the following context: {paragraph} into one united paragraph. If there is any mathematical symbols, return them in the correct format that can be displayed in a web page."
+        context = llm.complete(prompt)
+        context = context.text
         return context

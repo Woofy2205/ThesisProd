@@ -100,6 +100,7 @@ class AssistantBot(CustomLLM):
             yield CompletionResponse(text=accumulated_text)
 
 if __name__ == "__main__":
-    llm = AssistantBot(model="gpt-3.5-turbo")
-    response = llm.complete("Hello, how are you?")
-    print(response)
+    # llm = AssistantBot(model="gpt-3.5-turbo")
+    # response = llm.complete("Hello, how are you?")
+    # print(response)
+    pass

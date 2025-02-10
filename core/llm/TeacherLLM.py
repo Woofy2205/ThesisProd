@@ -32,12 +32,13 @@ instruction_questions = """
 				num_correct_options: {num_correct_options}
 	Template that you should follow: 
     [
-    [\"Question: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer: \"],
-	[\"Question: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer: \"],
+    [\"Question: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer: \", \"Context: \"],
+	[\"Question: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer: \", \"Context: \"],
     ...
-    [\"Question: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer: \"],
+    [\"Question: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer: \", \"Context: \"],
     ]
-    You must also give the correct answer, this is very important to follow, the correct answer must be in the Answer: section. There could be more than one correct answer, the number of correct answers should be equal to the num_correct_options parameter.
+    You must also give the correct answer, this is very important to follow, the correct answer must be in the Answer: section. There could be more than one correct answer, the number of correct answers must be equal to the num_correct_options parameter. This is very important to follow.
+    You should also give the original context of the question, where did this question come from, this is also very important to follow.
     As described in the template, you should strictly follow the total_options, as the total_options number increases, the options will have the heading follow the alphabet. For example if the total_options = 5, the heading is A, B, C, D, E if the total_options = 6, the heading is A, B, C, D, E, F and so on.
     As you follow this instruction, you don't have to reply to this text from me, just wait for the parameters from me and then you can start generating questions.
     When generating questions, just return the format that can turn into python list, remember all the brackets, cut off all the extra words and sentiments, this is super important to follow.
@@ -123,7 +124,7 @@ class TeacherBot(CustomLLM):
     
     def create_question(self, context: str, 
                         history: Optional[List[Dict[str, Any]]] = None,
-                        num_questions: int = 10,
+                        num_questions: int = 5,
                         total_options: int = 4,
                         num_correct_options: int = 1,
                         **kwargs) -> list:
