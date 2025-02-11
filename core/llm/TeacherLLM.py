@@ -38,14 +38,14 @@ instruction_questions = """
     [\"Question: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer: \", \"Context: \"],
     ]
     You must also give the correct answer, this is very important to follow, the correct answer must be in the Answer: section. There could be more than one correct answer, the number of correct answers must be equal to the num_correct_options parameter. This is very important to follow.
-    You should also give the original context of the question, where did this question come from, this is also very important to follow.
+    You should also give the original context of the question, this is also very important to follow. The context should be a short and straightforward part of the original context of where did this question come from.
     As described in the template, you should strictly follow the total_options, as the total_options number increases, the options will have the heading follow the alphabet. For example if the total_options = 5, the heading is A, B, C, D, E if the total_options = 6, the heading is A, B, C, D, E, F and so on.
     As you follow this instruction, you don't have to reply to this text from me, just wait for the parameters from me and then you can start generating questions.
     When generating questions, just return the format that can turn into python list, remember all the brackets, cut off all the extra words and sentiments, this is super important to follow. You must remember all the brackets and commas that are needed to make it a python list. Don't forget this because this is very lethal to the system.
 """
 
 def get_response(user_text: str,
-             model: str = "gpt-3.5-turbo",
+             model: str = "gpt-4-turbo",
              history: Optional[List[dict]] = None) -> str:
     """
     Perform a completion using OpenAI's API.
@@ -141,9 +141,6 @@ class TeacherBot(CustomLLM):
                 correct_options: {num_correct_options}
             """
             response = get_response(prompt, self.model, history)
-            response = response.strip()
-            response = response.replace('\\"', '"')
-            response = response.replace("\\n", " ") 
             print(response)
             final_response = json.loads(response)
         return final_response

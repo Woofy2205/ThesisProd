@@ -15,9 +15,12 @@ from core.retriever.Retriever import Retriever
 load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
 
-def process_pdf(doc_path: str):
+def process_pdf(doc_path: str) -> list:
     faiss_store = FaissStore(documents_path = doc_path)
     nodes = faiss_store.get_nodes()
+    return nodes
+
+def create_store(nodes: list):
     _store = Retriever(nodes = nodes)
     return _store
     
@@ -32,6 +35,9 @@ def main():
     if 'store' not in ss:
         ss['store'] = None
     
+    if 'nodes' not in ss:
+        ss['nodes'] = None
+    
     with st.sidebar:
         # Access the uploaded ref via a key.
         pdf_file = st.file_uploader("Upload PDF file", type=('pdf'))
@@ -39,6 +45,8 @@ def main():
         save_folder = "app/static/"
         if pdf_file is not None:
             save_path = os.path.join(save_folder, pdf_file.name)
+            for file in os.listdir(save_folder):
+                os.remove(os.path.join(save_folder, file))
             with open(save_path, mode='wb') as w:
                 w.write(pdf_file.getvalue())
         else:
@@ -49,7 +57,11 @@ def main():
     
     if st.button("Process PDF"):
         with st.spinner("Teacher digesting the PDF"):
-            ss.store = process_pdf(save_folder)
+            ss.nodes = process_pdf(save_folder)
+    
+    if st.button("Preparing questions"):
+        with st.spinner("Teacher preparing questions..."):
+            ss.store = create_store(ss.nodes)
     
     if ss.store:
         retriever = ss.store.get_retriever(top_k = 5)        
