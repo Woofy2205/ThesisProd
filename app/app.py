@@ -26,7 +26,7 @@ def create_store(nodes: list):
     
 
 def main():
-    st.set_page_config(page_title="Quick DocumentsQA demo", page_icon=":books:")
+    st.set_page_config(page_title="DocumentsQA", page_icon="💬", layout="wide")
     st.header("DocumentsQA :books:")
     
     if 'pdf' not in ss:
