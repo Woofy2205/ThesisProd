@@ -42,7 +42,7 @@ def main():
         # Access the uploaded ref via a key.
         pdf_file = st.file_uploader("Upload PDF file", type=('pdf'))
         ss.pdf = pdf_file
-        save_folder = "app/static/"
+        save_folder = "app/static/pdfdir/"
         if pdf_file is not None:
             save_path = os.path.join(save_folder, pdf_file.name)
             for file in os.listdir(save_folder):
