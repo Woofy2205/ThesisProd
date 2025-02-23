@@ -5,7 +5,9 @@ from dotenv import load_dotenv
 from streamlit import session_state as ss
 from streamlit_pdf_viewer import pdf_viewer
 
+print(os.getcwd())
 os.chdir("D:/Project/ThesisProd/")
+print(os.getcwd())
 
 from core.ingestion.preprocessing.storage.FaissStore import FaissStore
 from core.llm.AssistantLLM import AssistantBot
