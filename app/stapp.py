@@ -29,12 +29,13 @@ st.set_page_config(page_title="DocQA", page_icon="💬", layout="wide")
 
 home_page = st.Page("app/portal/home.py", title="Home", icon="🏠")
 practice_page = st.Page("app/portal/practice.py", title="Practice", icon="👨‍🏫")
-student_page = st.Page("app/portal/student.py", title="Student", icon="👩‍🎓")
+# student_page = st.Page("app/portal/student.py", title="Student", icon="👩‍🎓")
+video_page = st.Page("app/portal/video.py", title="Video", icon="📹")
 original_page = st.Page("app/portal/original.py", title="V1", icon="🚩")
 
 
 navigation = st.navigation(
-    {"Home": [home_page], "Subpage": [practice_page, student_page, original_page]},
+    {"Home": [home_page], "Subpage": [practice_page, video_page, original_page]},
     expanded=True,
 )
 

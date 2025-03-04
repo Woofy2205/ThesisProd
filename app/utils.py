@@ -1,4 +1,5 @@
 import os
+from typing import List, Union
 
 os.chdir("D:/Project/ThesisProd/")
 
@@ -34,6 +35,19 @@ def refactor(response: list[str] = None) -> list:
     return response
 
 def show_question(response: Union[str, List[str]] = None):
+    if type(response) == str:
+        st.markdown(response)
+    else:
+        for i in range(len(response)):
+            for j in range(len(response[i])):
+                if j == 0:
+                    st.subheader(response[i][j])
+                elif j == 5 or j == 6:
+                    continue
+                else:
+                    st.markdown(response[i][j])
+
+def show_answer(response: Union[str, List[str]] = None):
     if type(response) == str:
         st.markdown(response)
     else:

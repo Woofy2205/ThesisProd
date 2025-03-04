@@ -100,10 +100,6 @@ def main():
                 if j == 6:
                     _response[i][6] = ":green[" + _response[i][6] + "]"
 
-        # for i in range(len(respond)):
-        #     for j in range(len(respond[i])):
-        #         print(respond[i][j] + "\n")
-
         # Display assistant response in chat message container
         with st.chat_message("assistant"):
             for i in range(len(_response)):

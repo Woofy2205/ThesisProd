@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DG_KEY = os.getenv('DEEPGRAM_API_KEY')
-SAVE_DIR = '/'.join(os.getcwd().split('/')[:3]) + 'static/speechdir'
+SAVE_DIR = '/'.join(os.getcwd().split('/')[:3]) + '/static/speechdir' # need changing
 AUDIO_PATH = SAVE_DIR + '/audio_cont'
 JSON_PATH = SAVE_DIR + '/json_cont'
 
@@ -19,7 +19,7 @@ class AudioProcessor:
     """
     deepgram = DeepgramClient(DG_KEY)
     video_path: str = None
-    ydl_opts: list = {
+    ydl_opts: dict = {
         'format': 'best',
         'outtmpl': AUDIO_PATH + '/%(title)s.%(ext)s',
         'noplaylist': True,
@@ -42,20 +42,24 @@ class AudioProcessor:
             self.ydl_opts = ydl_opts
             print(f"Loaded audio file {self.video_path}.")
     
-    def process_download(video_url: str = None, 
-                         ydl_opts: dict = ydl_opts, 
+    def process_download(self,
+                         video_url: str = None, 
+                         ydl_opts: dict = ydl_opts,
                          audio_path: str = AUDIO_PATH, 
                          **kwargs):
         #if in SAVE_PATH have another file, delete it to be empty
         if os.path.exists(audio_path):
             for file in os.listdir(audio_path):
                 os.remove(audio_path + '/' + file)
+        url = video_url
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            info_dict = ydl.extract_info(video_url, download=True)
-            video_url = info_dict.get("url", None)
-            video_title = info_dict.get('title', None)
+            info_dict = ydl.extract_info(url, download=True)
+            # print(info_dict)
+            url = info_dict.get("url", None)
+            _video_title = info_dict.get('title', None)
             # video_length = info_dict.get('duration')
-        return video_title
+        
+        return _video_title
 
     def transcript(audio_path: str = AUDIO_PATH,
                    json_path: str = JSON_PATH,

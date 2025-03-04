@@ -39,17 +39,17 @@ if 'nodes' not in ss:
 col1, col2 = st.columns([2,2])
 
 with col2:
-    subcol1, subcol2, subcol3 = st.columns([8,1,1])
+    subcol1, subcol2 = st.columns([7,3])
     pdf_file = subcol1.file_uploader("Upload PDF file", type=('pdf'), label_visibility = "collapsed")
     
     ss.pdf = pdf_file
     save_folder = "app/static/pdfdir/"
     
-    if subcol2.button("🚩", use_container_width=True):
+    if subcol2.button("Process PDF 🚩", use_container_width=True):
         with st.spinner("Teacher digesting the PDF"):
             ss.nodes = process_pdf(save_folder)
 
-    if subcol3.button("👍", use_container_width=True):
+    if subcol2.button("Creating Test Bank👍", use_container_width=True):
         with st.spinner("Teacher preparing questions..."):
             ss.store = create_store(ss.nodes)
     
@@ -68,7 +68,7 @@ with col2:
             
     if ss.store:
         retriever = ss.store.get_retriever(top_k = 5)        
-        st.success("PDF processed successfully!")
+        st.success("Test Bank is ready! 🎉")
     os.chdir("D:/Project/ThesisProd/app/")
 
 with col1:
@@ -81,7 +81,23 @@ with col1:
     # Display chat messages from history on app rerun
     for message in st.session_state.messages:
         with mes_container.chat_message(message["role"]):
-            show_question(message["content"])
+            show_answer(message["content"])
+            
+    if st.button("Answer", use_container_width=True):
+        with st.spinner("Generating Answer..."):
+            for message in st.session_state.messages:
+                if message["role"] == "assistant":
+                    with mes_container.chat_message(message["role"]):
+                        show_answer(message["content"])
+    
+    smallcol1 , smallcol2 = st.columns([1,1])
+    options  = smallcol1.selectbox( "Select a question type to create",
+        ["Multiple Choice Question", "Fill in the Blank", "True or False", "Short Answer Question"]                        
+    )
+    
+    types = smallcol2.selectbox("Select a question difficulty",
+        ["Remembering", "Understanding", "Applying", "Analyzing", "Evaluating", "Creating"]
+    )
     
     if prompt := st.chat_input("Type some topic you want to practice!"):
         # Add user message to chat history
@@ -92,7 +108,7 @@ with col1:
         
         context = ss.store.get_big_context(retriever=retriever, query=prompt)
         
-        with st.spinner("Teacher is creating questions..."):
+        with st.spinner("Teacher choosing the best question..."):
             teacher = TeacherBot()
             _response = teacher.create_question(context = context)
             

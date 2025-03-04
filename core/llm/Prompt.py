@@ -42,4 +42,26 @@ new_greeting_prompt = """
     ]
 """
 
-new_instruction_questions
+remembering_questions_prompt = """
+
+"""
+
+understanding_questions_prompt = """
+
+"""
+
+applying_questions_prompt = """
+
+"""
+
+analyzing_questions_prompt = """
+
+"""
+
+evaluating_questions_prompt = """
+
+"""
+
+creating_questions_prompt = """
+
+"""
