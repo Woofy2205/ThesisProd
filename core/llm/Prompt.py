@@ -43,17 +43,41 @@ original_instruction_questions = """
 # """
 
 remembering_questions_prompt = """
-    
+    The questions that you need to create must follow the bloom's taxonomy remembering level.
+    You must create questions that require the student to be able to recall facts, recognize information, name, identify, describe.
+    The questions should be focused on recalling factual information, definitions, or concepts requires little to no interpretation often one-word or short-answer responses tests memory, recognition, and recall abilities.
+    The questions should contain one of the following words:
+    - Verbs: Define, List, Identify, Name, Recall, Recognize, Describe, State, etc.
+    - Question words: What, Who, When, Where, Which, etc.
+    These words should only be in the question part, not the options in the questions.
 """
 
 understanding_questions_prompt = """
-
+    The questions that you need to create must follow the bloom's taxonomy understanding level.
+    You must create questions that require the student to able to explain, summarize, discuss, interpret, classify, paraphrase, compare.
+    The questions should be focused on explaining ideas or concepts, and should require the student to understand the information rather than just memorize it.
+    The questions should contain one of the following words:
+    - Verbs: Explain, Summarize, Discuss, Paraphrase, Interpret, Compare, Contrast, Classify, etc.
+    - Question words: Why, How, Explain, Summarize, Discuss, etc.
+    These words should only be in the question part, not the options in the questions.
 """
 
 applying_questions_prompt = """
-
+    The questions that you need to create must follow the bloom's taxonomy applying level.
+    You must create questions that require the student to use, solve, demonstrate, implement, apply theories, execute procedures.
+    The questions should be focused on use information in new situations, solve problems using required skills or knowledge.
+    The questions should contain one of the following words:
+    - Verbs: Apply, Use, Solve, Demonstrate, Implement, Execute, etc.
+    - Question words: How, What happens if, What would you do if, etc.
+    These words should only be in the question part, not the options in the questions.
 """
 
 analyzing_questions_prompt = """
-
+    The questions that you need to create must follow the bloom's taxonomy analyzing level.
+    You must create questions that require the student to break down, compare, contrast, examine, categorize, identify relationships.
+    The questions should be focused on breaking information into parts and examining relationships between the parts.
+    The questions should contain one of the following words:
+    - Verbs: Analyze, Compare, Contrast, Investigate, Compare, Categorize, Identify, Examine, etc.
+    - Question words: Why, How, What is the relationship between, etc.
+    These words should only be in the question part, not the options in the questions.
 """
