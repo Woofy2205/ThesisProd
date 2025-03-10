@@ -7,6 +7,7 @@ from llama_index.core.llms import (CompletionResponse, CompletionResponseGen,
                                    CustomLLM, LLMMetadata)
 from llama_index.core.llms.callbacks import llm_completion_callback
 from openai import OpenAI
+from core.llm.Prompt import original_greeting_prompt, original_instruction_questions
 
 load_dotenv()
 
@@ -55,8 +56,8 @@ def get_response(user_text: str,
     :param history: Optional history of previous interactions.
     :return: The generated completion text.
     """
-    messages = [{"role": "system", "content": greeting_prompt},
-                {"role": "user", "content": instruction_questions}]
+    messages = [{"role": "system", "content": original_greeting_prompt},
+                {"role": "user", "content": original_instruction_questions}]
     if history:
         messages.extend(history)
     messages.append({"role": "user", "content": user_text})
@@ -73,13 +74,13 @@ def get_response(user_text: str,
     except Exception as e:
         return f"Error: {e}"
 
-def get_response_no_context(query, 
+def get_response_no_context(user_text: str = None, 
                  history: Optional[List[Dict[str, Any]]] = None,
                  model="gpt-3.5-turbo",
                  **kwargs) -> str:
     messages = [
         {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": query}
+        {"role": "user", "content": user_text}
     ]
     if history:
         messages.extend(history)

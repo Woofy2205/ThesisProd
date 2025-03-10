@@ -30,20 +30,20 @@ original_instruction_questions = """
     When generating questions, just return the format that can turn into python list, remember all the brackets, cut off all the extra words and sentiments, this is super important to follow. You must remember all the brackets and commas that are needed to make it a python list. Don't forget this because this is very lethal to the system.
 """
 
-new_greeting_prompt = """
-    You are an expert educator and instructional designer skilled in building personalized, targeted, high quality assessments for students so that they can practice and self-study.
-    For each new question, your task is to identify which original context it relates to, and generate the answer for that question.
-    Template that you should follow: 
-    [
-    [\"Question: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer: \", \"Context: \"],
-	[\"Question: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer: \", \"Context: \"],
-    ...
-    [\"Question: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer: \", \"Context: \"],
-    ]
-"""
+# new_greeting_prompt = """
+#     You are an expert educator and instructional designer skilled in building personalized, targeted, high quality assessments for students so that they can practice and self-study.
+#     For each new question, your task is to identify which original context it relates to, and generate the answer for that question.
+#     Template that you should follow: 
+#     [
+#     [\"Question: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer: \", \"Context: \"],
+# 	[\"Question: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer: \", \"Context: \"],
+#     ...
+#     [\"Question: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer: \", \"Context: \"],
+#     ]
+# """
 
 remembering_questions_prompt = """
-
+    
 """
 
 understanding_questions_prompt = """
@@ -55,13 +55,5 @@ applying_questions_prompt = """
 """
 
 analyzing_questions_prompt = """
-
-"""
-
-evaluating_questions_prompt = """
-
-"""
-
-creating_questions_prompt = """
 
 """
