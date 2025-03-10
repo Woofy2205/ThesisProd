@@ -3,9 +3,9 @@ from llama_index.core import Document
 
 class SentenceWindowSplitter:
     def __init__(self,
-                 window_size: int = 3,
-                 window_metadata_key: str = "window",
-                 original_text_metadata_key: str = "original_sentence"):
+                    window_size: int = 3,
+                    window_metadata_key: str = "window",
+                    original_text_metadata_key: str = "original_sentence"):
         """
         Initializes the SentenceWindowSplitter.
 

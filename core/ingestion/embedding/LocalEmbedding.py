@@ -21,8 +21,8 @@ class LocalEmbedding(BaseEmbedding):
     Local Embedding class.
     """
     def __init__(self,
-                 model: str = "Alibaba-NLP/gte-large-en-v1.5",
-                 **kwargs: Any) -> None:
+                    model: str = "Alibaba-NLP/gte-large-en-v1.5",
+                    **kwargs: Any) -> None:
         """
         Initialize the LocalEmbedding class.
         """
@@ -38,8 +38,8 @@ class LocalEmbedding(BaseEmbedding):
         return "LocalEmbedding"
 
     def get_embeddings(self,
-                       text: str,
-                       **kwargs) -> List:
+                        text: str,
+                        **kwargs) -> List:
         """
         Get embeddings for a given text using a local pre-trained model.
         """

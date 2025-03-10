@@ -15,9 +15,9 @@ llm = AssistantBot()
 
 class HyDETransformer(HyDEQueryTransform):
     def __init__(self, 
-                 llm: LLM = llm,
-                 hyde_prompt: str = None,
-                 include_original: bool = True):
+                    llm: LLM = llm,
+                    hyde_prompt: str = None,
+                    include_original: bool = True):
         """
         Initializes the Hypothetical Document Embeddings 
 

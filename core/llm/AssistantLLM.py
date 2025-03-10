@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional
 
 from dotenv import load_dotenv
 from llama_index.core.llms import (CompletionResponse, CompletionResponseGen,
-                                   CustomLLM, LLMMetadata)
+                                    CustomLLM, LLMMetadata)
 from llama_index.core.llms.callbacks import llm_completion_callback
 from openai import OpenAI
 
@@ -12,9 +12,9 @@ load_dotenv()
 client = OpenAI()
 
 def get_response(query, 
-                 history: Optional[List[Dict[str, Any]]] = None,
-                 model="gpt-3.5-turbo",
-                 **kwargs) -> str:
+                    history: Optional[List[Dict[str, Any]]] = None,
+                    model="gpt-3.5-turbo",
+                    **kwargs) -> str:
     messages = [
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": query}
@@ -62,7 +62,7 @@ class AssistantBot(CustomLLM):
     
     @llm_completion_callback()
     def complete(self, prompt: str,
-                 history: Optional[List[Dict[str, Any]]] = None,
+                    history: Optional[List[Dict[str, Any]]] = None,
                  **kwargs) -> CompletionResponse:
         """
         Completion endpoint for the LLM.

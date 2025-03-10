@@ -23,10 +23,10 @@ class Reranker(LLMRerank):
     _original_string: str = PrivateAttr()
 
     def __init__(self, 
-                 original_string: str,
-                 llm: Union[LLM, str] = llm, 
-                 top_n: int = 10, 
-                 **kwargs):
+                    original_string: str,
+                    llm: Union[LLM, str] = llm, 
+                    top_n: int = 10, 
+                    **kwargs):
         """
         Initialize the Reranker.
 
@@ -41,8 +41,8 @@ class Reranker(LLMRerank):
         self.top_n = top_n
 
     def get_relevant_score(self,
-                           input_string: str,
-                           reference_string: str) -> float:
+                            input_string: str,
+                            reference_string: str) -> float:
         """
         Get the relevance score of the input string with respect to the reference string.
 
@@ -68,8 +68,8 @@ class Reranker(LLMRerank):
         return score
 
     def transform(self, 
-                  inputs: Union[str, List[str], List[List[str]]],
-                  **kwargs) -> List[str]:
+                    inputs: Union[str, List[str], List[List[str]]],
+                    **kwargs) -> List[str]:
         """
         Rerank the input strings based on their relevance scores from RagoonBot.
 
@@ -109,10 +109,10 @@ class Reranker(LLMRerank):
 if __name__ == "__main__":
     ori = "What are the effects of schizophrenia on memory?"
     inputs = ["Schizophrenia is a severe mental disorder that affects how a person thinks, feels, and behaves.",
-              "Schizophrenia can have a significant impact on memory and cognitive function.",
-              "The effects of schizophrenia on memory can vary from person to person.",
-              "Schizophrenia is associated with memory deficits and cognitive impairments.",
-              "Memory loss is a common symptom of schizophrenia."]
+                "Schizophrenia can have a significant impact on memory and cognitive function.",
+                "The effects of schizophrenia on memory can vary from person to person.",
+                "Schizophrenia is associated with memory deficits and cognitive impairments.",
+                "Memory loss is a common symptom of schizophrenia."]
     
     reranker = Reranker(original_string=ori)
     top_ranked = reranker.transform(inputs)

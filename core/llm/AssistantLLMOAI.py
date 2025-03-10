@@ -3,7 +3,7 @@ from typing import Any, List, Optional
 
 from dotenv import load_dotenv
 from llama_index.core.llms import (CompletionResponse, CompletionResponseGen,
-                                   CustomLLM, LLMMetadata)
+                                    CustomLLM, LLMMetadata)
 from llama_index.core.llms.callbacks import llm_completion_callback
 from openai import OpenAI
 
@@ -12,8 +12,8 @@ load_dotenv()
 client = OpenAI()
 
 def complete(user_text: str,
-             model: str = "gpt-3.5-turbo",
-             history: Optional[List[dict]] = None) -> str:
+                model: str = "gpt-3.5-turbo",
+                history: Optional[List[dict]] = None) -> str:
     """
     Perform a completion using OpenAI's API.
 

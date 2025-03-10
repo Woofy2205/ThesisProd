@@ -28,8 +28,8 @@ class MultiStepTransformer:
         self.max_queries = 3
 
     def transform(self, text: Union[str, List[str], List[List[str]]],
-                  max_queries: int = 3,
-                  **kwargs) -> List[str]:
+                    max_queries: int = 3,
+                    **kwargs) -> List[str]:
         """
         Decomposes the input query into multiple sub-queries (steps) for a step-by-step answer.
         Each sub-query should be separated by a newline.

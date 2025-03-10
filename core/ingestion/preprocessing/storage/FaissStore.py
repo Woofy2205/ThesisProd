@@ -24,8 +24,8 @@ class FaissStore:
     documents: list = None
     vector_store: FaissVectorStore = None
     def __init__(self, 
-                 documents_path: str = None, 
-                 embed_dim: int = 512,
+                    documents_path: str = None, 
+                    embed_dim: int = 512,
                  **kwargs):
         """
         Initializes the FaissStore.

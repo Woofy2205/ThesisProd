@@ -6,8 +6,8 @@ EMBED_DIMENSION = 512
 
 class OAIEmbedding(OAIEmbedding):
     def __init__(self,
-                 model: str = "text-embedding-3-small", 
-                 dimension: int = EMBED_DIMENSION):
+                    model: str = "text-embedding-3-small", 
+                    dimension: int = EMBED_DIMENSION):
         """
         Initializes the OpenAIEmbedding.
         

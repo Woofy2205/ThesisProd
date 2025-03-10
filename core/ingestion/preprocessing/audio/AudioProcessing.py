@@ -26,9 +26,9 @@ class AudioProcessor:
         'extract-audio': True,
     }
     def __init__(self, 
-                 audio_path: str = None,
-                 ydl_opts: dict = ydl_opts,
-                 **kwargs):
+                    audio_path: str = None,
+                    ydl_opts: dict = ydl_opts,
+                    **kwargs):
         """
         Initializes the AudioProcessor.
         
@@ -43,10 +43,10 @@ class AudioProcessor:
             print(f"Loaded audio file {self.video_path}.")
     
     def process_download(self,
-                         video_url: str = None, 
-                         ydl_opts: dict = ydl_opts,
-                         audio_path: str = AUDIO_PATH, 
-                         **kwargs):
+                            video_url: str = None, 
+                            ydl_opts: dict = ydl_opts,
+                            audio_path: str = AUDIO_PATH, 
+                            **kwargs):
         #if in SAVE_PATH have another file, delete it to be empty
         if os.path.exists(audio_path):
             for file in os.listdir(audio_path):
@@ -62,8 +62,8 @@ class AudioProcessor:
         return _video_title
 
     def transcript(audio_path: str = AUDIO_PATH,
-                   json_path: str = JSON_PATH,
-                   **kwargs):
+                    json_path: str = JSON_PATH,
+                    **kwargs):
         audio_file = audio_path + '/' + video_title + '.mp4'
         json_file = json_path + '/' + video_title + '.json'
         try:

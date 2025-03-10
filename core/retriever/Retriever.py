@@ -18,8 +18,8 @@ class Retriever(VectorStoreIndex):
     vector_store_index: VectorStoreIndex = None,
     
     def __init__(self, 
-                 nodes: list = None, 
-                 **kwargs):
+                    nodes: list = None, 
+                    **kwargs):
         """
         Initializes the Retriever.
 

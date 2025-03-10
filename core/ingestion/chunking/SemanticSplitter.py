@@ -5,16 +5,16 @@ from llama_index.core import Document
 
 class SentenceSplitter(SemanticSplitterNodeParser):
     def __init__(self,
-                 buffer_size: int = 512,
-                 embed_model: str = None,
-                 show_progress: bool = True,
-                 include_metadata: bool = True):
+                    buffer_size: int = 512,
+                    embed_model: str = None,
+                    show_progress: bool = True,
+                    include_metadata: bool = True):
         """
         Initializes the SemanticSplitter.
         
         :param buffer_size: int, default 512. Size of the buffer for text processing.
         :param embed_model: str, optional, default None. If None, OpenAIEmbedding is used. 
-                             Otherwise, a HuggingFace embedding model is instantiated.
+                            Otherwise, a HuggingFace embedding model is instantiated.
         :param show_progress: bool, default True. Whether to show progress during processing.
         :param include_metadata: bool, default True. Whether to include metadata in the output.
         """

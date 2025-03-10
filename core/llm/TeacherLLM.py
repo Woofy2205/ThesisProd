@@ -4,7 +4,7 @@ from typing import Any, Dict, List, Optional
 
 from dotenv import load_dotenv
 from llama_index.core.llms import (CompletionResponse, CompletionResponseGen,
-                                   CustomLLM, LLMMetadata)
+                                    CustomLLM, LLMMetadata)
 from llama_index.core.llms.callbacks import llm_completion_callback
 from openai import OpenAI
 from core.llm.Prompt import (
@@ -28,9 +28,9 @@ question_prompt = {
 }
 
 def get_response(user_text: str,
-             model: str = "gpt-4-turbo",
-             question_type: str = None,
-             history: Optional[List[dict]] = None) -> str:
+                model: str = "gpt-4-turbo",
+                question_type: str = None,
+                history: Optional[List[dict]] = None) -> str:
     """
     Perform a completion using OpenAI's API.
     
@@ -58,9 +58,9 @@ def get_response(user_text: str,
         return f"Error: {e}"
 
 def get_response_no_context(user_text: str = None, 
-                 history: Optional[List[Dict[str, Any]]] = None,
-                 model="gpt-3.5-turbo",
-                 **kwargs) -> str:
+                    history: Optional[List[Dict[str, Any]]] = None,
+                    model="gpt-3.5-turbo",
+                    **kwargs) -> str:
     messages = [
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": user_text}
@@ -133,8 +133,8 @@ class TeacherBot(CustomLLM):
     
     @llm_completion_callback()
     def complete(self, prompt: str,
-                 history: Optional[List[Dict[str, Any]]] = None,
-                 **kwargs) -> CompletionResponse:
+                    history: Optional[List[Dict[str, Any]]] = None,
+                    **kwargs) -> CompletionResponse:
         """
         Completion endpoint for the LLM.
         """

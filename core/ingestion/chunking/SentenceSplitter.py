@@ -3,8 +3,8 @@ from llama_index.core import Document
 
 class SentenceSplitter:
     def __init__(self,
-                 chunk_size: int = 64,
-                 chunk_overlap: int = 32):
+                    chunk_size: int = 64,
+                    chunk_overlap: int = 32):
         """
         Initializes the SentenceSplitter.
 

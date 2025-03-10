@@ -5,11 +5,11 @@ config = LanguageConfig(language="english", spacy_model="en_core_web_md")
 
 class SemanticDoubleMergingSplitter(SemanticDoubleMergingSplitterNodeParser):
     def __init__(self, 
-                 language_config: LanguageConfig = config,
-                 initial_threshold: float = 0.5,
-                 appending_threshold: float = 0.7,
-                 merging_threshold: float = 0.8,
-                 max_chunk_size: int = 512):
+                    language_config: LanguageConfig = config,
+                    initial_threshold: float = 0.5,
+                    appending_threshold: float = 0.7,
+                    merging_threshold: float = 0.8,
+                    max_chunk_size: int = 512):
         """
         Initializes the SemanticDoubleMergingSplitter.
 
