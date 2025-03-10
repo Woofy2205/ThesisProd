@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 import streamlit as st
 from dotenv import load_dotenv
@@ -96,7 +97,7 @@ with col1:
     )
     
     types = smallcol2.selectbox("Select a question difficulty",
-        ["Remembering", "Understanding", "Applying", "Analyzing", "Evaluating", "Creating"]
+        ["Remember", "Understand", "Apply", "Analyze"]
     )
     
     if prompt := st.chat_input("Type some topic you want to practice!"):
@@ -110,7 +111,7 @@ with col1:
         
         with st.spinner("Teacher choosing the best question..."):
             teacher = TeacherBot()
-            _response = teacher.create_question(context = context)
+            _response = teacher.create_question(context = context, ques_type = types)
             
         response = refactor(_response)
 
