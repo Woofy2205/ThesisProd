@@ -61,11 +61,17 @@ class AudioProcessor:
         
         return _video_title
 
-    def transcript(audio_path: str = AUDIO_PATH,
+    def transcript(self,
+                    audio_path: str = AUDIO_PATH,
                     json_path: str = JSON_PATH,
+                    video_title: str = None,
                     **kwargs):
-        audio_file = audio_path + '/' + video_title + '.mp4'
-        json_file = json_path + '/' + video_title + '.json'
+        if video_title is None:
+            print("No video title provided.")
+            return
+        else:
+            audio_file = audio_path + '/' + video_title + '.mp4'
+            json_file = json_path + '/' + video_title + '.json'
         try:
             # Download the audio file from the URL
             if os.path.exists(json_path):
@@ -86,7 +92,7 @@ class AudioProcessor:
             )
 
             # STEP 3: Call the transcribe_file method with the text payload and options
-            response = deepgram.listen.prerecorded.v("1").transcribe_file(payload, options)
+            response = self.deepgram.listen.prerecorded.v("1").transcribe_file(payload, options)
 
             # STEP 4: Write the response JSON to a file
             with open(json_file, "w") as transcript_file:
@@ -97,7 +103,7 @@ class AudioProcessor:
         except Exception as e:
             print(f"Exception: {e}")
         
-    def transcript(transcription_file: str = None):
+    def context_transcript(self, transcription_file: str = None):
         with open(transcription_file, "r") as file:
             final_res = ""
             data = json.load(file)

@@ -10,15 +10,16 @@ from core.ingestion.preprocessing.audio.AudioProcessing import AudioProcessor
 if 'video_url' not in ss:
     ss['video_url'] = None
     
+if 
+    
 col1, col2 = st.columns([2,2])
 with col1:
     ss.video_url = st.text_input("Enter video URL here")
     save_folder = "app/static/speechdir/"
-
+    
     if ss.video_url:
         st.video(ss.video_url)
         st.write("Transcript Here (not yet, bug-ing 😭😭)")
-    
     
     os.chdir("D:/Project/ThesisProd/app")
 
