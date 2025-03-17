@@ -2,7 +2,8 @@ import os
 
 import streamlit as st
 
-os.chdir("D:/Project/ThesisProd/")
+# os.chdir("D:/Project/ThesisProd/")
+os.chdir("C:/Users/Learning/Project/ThesisProd")
 
 st.title("Chat with your Lecture 😁")
 st.write(
@@ -26,4 +27,5 @@ st.markdown(
    """
 )
 
-os.chdir("D:/Project/ThesisProd/app/")
+# os.chdir("D:/Project/ThesisProd/app/")
+os.chdir("C:/Users/Learning/Project/ThesisProd/app")

@@ -3,25 +3,48 @@ import os
 import streamlit as st
 from streamlit import session_state as ss
 
-os.chdir("D:/Project/ThesisProd/")
+# os.chdir("D:/Project/ThesisProd/")
+os.chdir("C:/Users/Learning/Project/ThesisProd")
 
 from core.ingestion.preprocessing.audio.AudioProcessing import AudioProcessor
+from core.ingestion.preprocessing.advanced.hyde.HyDe import HyDETransformer
+from core.llm.TeacherLLM import TeacherBot
+from app.utils import *
 
 if 'video_url' not in ss:
     ss['video_url'] = None
-    
-if 
-    
+
+if 'audio_processor' not in ss:
+    ss['audio_processor'] = None
+
+if 'transformer' not in ss:
+    ss['transformer'] = HyDETransformer()
+
+if 'context' not in ss:
+    ss['context'] = None
+
+save_folder = '/'.join(os.getcwd().split('/')[:3]) + '/app/static/speechdir'
+audio_path = save_folder + '/audio_cont'
+json_path = save_folder + '/json_cont'
+
 col1, col2 = st.columns([2,2])
 with col1:
     ss.video_url = st.text_input("Enter video URL here")
-    save_folder = "app/static/speechdir/"
-    
     if ss.video_url:
         st.video(ss.video_url)
-        st.write("Transcript Here (not yet, bug-ing 😭😭)")
-    
-    os.chdir("D:/Project/ThesisProd/app")
+        processor = AudioProcessor(audio_path = ss.video_url)
+        ss.audio_processor = processor
+        if ss.context is None:
+            with st.spinner("Processing Video..."):
+                vid_title = processor.process_download(video_url=ss.video_url, audio_path = audio_path)
+                processor.transcript(audio_path = audio_path, json_path = json_path, video_title=vid_title)
+                transcription_file = json_path + '/' + vid_title + '.json'
+                respond = processor.context_transcript(transcription_file)
+                context = ss.transformer.transform(respond)
+                ss.context = context[0][0]
+            st.write(ss.context)
+    os.chdir("C:/Users/Learning/Project/ThesisProd/app")
+    # os.chdir("D:/Project/ThesisProd/app")
 
 with col2:
     if "messages" not in st.session_state:
@@ -56,11 +79,11 @@ with col2:
         with mes_container.chat_message("user"):
             st.markdown(prompt)
         
-        context = ss.store.get_big_context(retriever=retriever, query=prompt)
+        # context = ss.store.get_big_context(retriever=retriever, query=prompt)
         
         with st.spinner("Teacher is creating questions..."):
             teacher = TeacherBot()
-            _response = teacher.create_question(context = context)
+            _response = teacher.create_question(context = ss.context)
             
         response = refactor(_response)
 
@@ -69,3 +92,4 @@ with col2:
             show_question(response)
         # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": response})
+    os.chdir("C:/Users/Learning/Project/ThesisProd/app")

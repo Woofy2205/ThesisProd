@@ -1,7 +1,8 @@
 import os
 from typing import List, Union
 
-os.chdir("D:/Project/ThesisProd/")
+# os.chdir("D:/Project/ThesisProd/")
+os.chdir("C:/Users/Learning/Project/ThesisProd")
 
 import streamlit as st
 from dotenv import load_dotenv
@@ -58,4 +59,5 @@ def show_answer(response: Union[str, List[str]] = None):
                 else:
                     st.markdown(response[i][j])
                 
-os.chdir("D:/Project/ThesisProd/app/")
+# os.chdir("D:/Project/ThesisProd/app/")
+os.chdir("C:/Users/Learning/Project/ThesisProd/app")

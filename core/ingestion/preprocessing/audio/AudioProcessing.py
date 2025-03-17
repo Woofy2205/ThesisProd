@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DG_KEY = os.getenv('DEEPGRAM_API_KEY')
-SAVE_DIR = '/'.join(os.getcwd().split('/')[:3]) + '/static/speechdir' # need changing
+SAVE_DIR = '/'.join(os.getcwd().split('/')[:3]) + '/app/static/speechdir' # need changing
 AUDIO_PATH = SAVE_DIR + '/audio_cont'
 JSON_PATH = SAVE_DIR + '/json_cont'
 
@@ -45,7 +45,7 @@ class AudioProcessor:
     def process_download(self,
                             video_url: str = None, 
                             ydl_opts: dict = ydl_opts,
-                            audio_path: str = AUDIO_PATH, 
+                            audio_path: str = None, 
                             **kwargs):
         #if in SAVE_PATH have another file, delete it to be empty
         if os.path.exists(audio_path):
@@ -62,8 +62,8 @@ class AudioProcessor:
         return _video_title
 
     def transcript(self,
-                    audio_path: str = AUDIO_PATH,
-                    json_path: str = JSON_PATH,
+                    audio_path: str = None,
+                    json_path: str = None,
                     video_title: str = None,
                     **kwargs):
         if video_title is None:
