@@ -128,7 +128,11 @@ class TeacherBot(CustomLLM):
             """
             response = get_response(prompt, self.model, ques_type, history)
             # print(response)
-            final_response = json.loads(response)
+            try:
+                final_response = json.loads(response)
+            except:
+                final_response = None
+                print("Error in generating questions: ", response)
         return final_response
     
     @llm_completion_callback()

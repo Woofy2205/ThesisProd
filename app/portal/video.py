@@ -85,11 +85,14 @@ with col2:
             teacher = TeacherBot()
             _response = teacher.create_question(context = ss.context)
             
-        response = refactor(_response)
+        if _response is not None:
+            response = refactor(_response)
 
-        # Display assistant response in chat message container
-        with mes_container.chat_message("assistant"):
-            show_question(response)
-        # Add assistant response to chat history
-        st.session_state.messages.append({"role": "assistant", "content": response})
+            # Display assistant response in chat message container
+            with mes_container.chat_message("assistant"):
+                show_question(response)
+            # Add assistant response to chat history
+            st.session_state.messages.append({"role": "assistant", "content": response})
+        else:
+            st.error("Question generated failed! Please try again.")
     os.chdir("C:/Users/Learning/Project/ThesisProd/app")
