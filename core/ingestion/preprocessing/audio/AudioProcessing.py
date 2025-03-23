@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DG_KEY = os.getenv('DEEPGRAM_API_KEY')
-SAVE_DIR = '/'.join(os.getcwd().split('/')[:3]) + '/app/static/speechdir' # need changing
+SAVE_DIR = '/'.join(os.getcwd().split('/')[:3]) + '/static/speechdir' # need changing
 AUDIO_PATH = SAVE_DIR + '/audio_cont'
 JSON_PATH = SAVE_DIR + '/json_cont'
 
