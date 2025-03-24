@@ -3,8 +3,8 @@ import os
 import streamlit as st
 from streamlit import session_state as ss
 
-os.chdir("D:/Project/ThesisProd/")
-# os.chdir("C:/Users/Learning/Project/ThesisProd")
+# os.chdir("D:/Project/ThesisProd/")
+os.chdir("C:/Users/Learning/Project/ThesisProd")
 
 from app.utils import *
 from core.ingestion.preprocessing.advanced.hyde.HyDe import HyDETransformer
@@ -45,14 +45,14 @@ with col1:
             st.write(ss.context)
         else:
             st.write(ss.context)
-    # os.chdir("C:/Users/Learning/Project/ThesisProd/app")
-    os.chdir("D:/Project/ThesisProd/app")
+    os.chdir("C:/Users/Learning/Project/ThesisProd/app")
+    # os.chdir("D:/Project/ThesisProd/app")
 
 with col2:
     if "messages" not in st.session_state:
         st.session_state.messages = []
     
-    mes_container = st.container(height=700)
+    mes_container = st.container(height=1000)
 
     # Display chat messages from history on app rerun
     for message in st.session_state.messages:
@@ -97,5 +97,5 @@ with col2:
             st.session_state.messages.append({"role": "assistant", "content": response})
         else:
             st.error("Question generated failed! Please try again.")
-    # os.chdir("C:/Users/Learning/Project/ThesisProd/app")
-    os.chdir("D:/Project/ThesisProd/app")
+    os.chdir("C:/Users/Learning/Project/ThesisProd/app")
+    # os.chdir("D:/Project/ThesisProd/app")

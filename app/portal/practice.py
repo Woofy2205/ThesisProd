@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 from streamlit import session_state as ss
 from streamlit_pdf_viewer import pdf_viewer
 
-os.chdir("D:/Project/ThesisProd/")
-# os.chdir("C:/Users/Learning/Project/ThesisProd")
+# os.chdir("D:/Project/ThesisProd/")
+os.chdir("C:/Users/Learning/Project/ThesisProd")
 
 from app.utils import *
 from core.ingestion.preprocessing.storage.FaissStore import FaissStore
@@ -71,8 +71,8 @@ with col2:
     if ss.store:
         retriever = ss.store.get_retriever(top_k = 5)        
         st.success("Test Bank is ready! 🎉")
-    # os.chdir("C:/Users/Learning/Project/ThesisProd/app")
-    os.chdir("D:/Project/ThesisProd/app/")
+    os.chdir("C:/Users/Learning/Project/ThesisProd/app")
+    # os.chdir("D:/Project/ThesisProd/app/")
 
 with col1:
     # Initialize chat history
@@ -84,14 +84,14 @@ with col1:
     # Display chat messages from history on app rerun
     for message in st.session_state.messages:
         with mes_container.chat_message(message["role"]):
-            show_answer(message["content"])
+            show_question(message["content"])
             
-    if st.button("Answer", use_container_width=True):
-        with st.spinner("Generating Answer..."):
-            for message in st.session_state.messages:
-                if message["role"] == "assistant":
-                    with mes_container.chat_message(message["role"]):
-                        show_answer(message["content"])
+    # if st.button("Answer", use_container_width=True):
+    #     with st.spinner("Generating Answer..."):
+    #         for message in st.session_state.messages:
+    #             if message["role"] == "assistant":
+    #                 with mes_container.chat_message(message["role"]):
+    #                     show_answer_raw(message["content"])
     
     smallcol1 , smallcol2 = st.columns([1,1])
     options  = smallcol1.selectbox( "Select a question type to create",
@@ -125,5 +125,5 @@ with col1:
             st.session_state.messages.append({"role": "assistant", "content": response})
         else:
             st.error("Question generated failed! Please try again.")
-    # os.chdir("C:/Users/Learning/Project/ThesisProd/app")
-    os.chdir("D:/Project/ThesisProd/app/")
+    os.chdir("C:/Users/Learning/Project/ThesisProd/app")
+    # os.chdir("D:/Project/ThesisProd/app/")

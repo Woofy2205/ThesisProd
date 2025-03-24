@@ -1,8 +1,9 @@
 import os
 from typing import List, Union
+import math
 
-os.chdir("D:/Project/ThesisProd/")
-# os.chdir("C:/Users/Learning/Project/ThesisProd")
+# os.chdir("D:/Project/ThesisProd/")
+os.chdir("C:/Users/Learning/Project/ThesisProd")
 
 import streamlit as st
 from dotenv import load_dotenv
@@ -69,19 +70,43 @@ def show_question(response: Union[str, List[str]] = None):
     if type(response) == str:
         st.markdown(response)
     else:
-        for i in range(len(response)):
-            form = st.form(key=f"quiz_{i}")
-            form.markdown(f"{i+1}. {response[i][0]}")
-            user_choice = form.radio("Choose an answer:", response[i][1:5])
-            submitted = form.form_submit_button("Submit")
-            if submitted:
-                print(response[i][5].replace('Answer: ', ''))
-                if answer_check(user_choice, response[i][5].replace('Answer: ', '')):
-                    st.success("Correct! 🎉")
-                    st.markdown(f"Context: {response[i][6].replace('Context: ', '')}")
+        with st.form('quiz'):
+            st.header('Let\'s practice!')
+            number_of_questions = len(response)
+            if number_of_questions > 1:
+                pass_score = st.select_slider('Pass score',
+                                                range(1, number_of_questions + 1),
+                                                value=math.ceil(0.8 * number_of_questions))
+            else:
+                pass_score = 1
+            answers = []
+            containers = []
+            for i in range(len(response)):
+                container = st.container()
+                answer = container.radio(f'{i + 1}. {response[i][0]}',
+                                            response[i][1:5],
+                                            )
+                answers.append(response[i][1:5].index(answer)+1)
+                containers.append(container)
+            submit_quiz = st.form_submit_button('Submit my answers')
+        if submit_quiz:
+            score = 0
+            for i in range(len(response)):
+                if answer_check(response[i][answers[i]], response[i][5].replace("Answer: ", "")):
+                    containers[i].success("Correct🎉🎊")
+                    containers[i].write(f"{response[i][6]}")
+                    score += 1
                 else:
-                    st.error("Incorrect! 😢")
-                    st.markdown(f"Context: {response[i][6].replace('Context: ', '')}")
+                    containers[i].error("Incorrect😢")
+                    containers[i].write(f"The answer is: {response[i][5].replace('Answer: ', '')}. {response[i][6]}")
+            
+            message = f'Your final score is: {score}/{number_of_questions}'
+            if score >= pass_score:
+                st.success(message)
+                st.success(':partying_face: Well done! Keep it up!')
+            else:
+                st.error(message)
+                st.error('Not this time :grimacing: Please Try again!')
 
-os.chdir("D:/Project/ThesisProd/app/")
-# os.chdir("C:/Users/Learning/Project/ThesisProd/app")
+# os.chdir("D:/Project/ThesisProd/app/")
+os.chdir("C:/Users/Learning/Project/ThesisProd/app")
