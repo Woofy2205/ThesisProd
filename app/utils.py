@@ -66,11 +66,11 @@ def answer_check(user: str, answer: str) -> bool:
     else:
         return False
 
-def show_question(response: Union[str, List[str]] = None):
+def show_question(response: Union[str, List[str]] = None, id: int = 0):
     if type(response) == str:
         st.markdown(response)
     else:
-        with st.form('quiz'):
+        with st.form(f'quiz {id}'):
             st.header('Let\'s practice!')
             number_of_questions = len(response)
             if number_of_questions > 1:
@@ -94,11 +94,12 @@ def show_question(response: Union[str, List[str]] = None):
             for i in range(len(response)):
                 if answer_check(response[i][answers[i]], response[i][5].replace("Answer: ", "")):
                     containers[i].success("Correct🎉🎊")
-                    containers[i].write(f"{response[i][6]}")
+                    containers[i].write(f"Context in documents: {response[i][6].replace('Context: ', '')}")
                     score += 1
                 else:
                     containers[i].error("Incorrect😢")
-                    containers[i].write(f"The answer is: {response[i][5].replace('Answer: ', '')}. {response[i][6]}")
+                    containers[i].write(f"The answer is: {response[i][5].replace('Answer: ', '')}.")
+                    containers[i].write(f"Context in documents: {response[i][6].replace('Context: ', '')}")
             
             message = f'Your final score is: {score}/{number_of_questions}'
             if score >= pass_score:

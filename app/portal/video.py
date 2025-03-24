@@ -53,11 +53,12 @@ with col2:
         st.session_state.messages = []
     
     mes_container = st.container(height=1000)
-
+    num = 0
     # Display chat messages from history on app rerun
     for message in st.session_state.messages:
         with mes_container.chat_message(message["role"]):
-            show_question(message["content"])
+            num += 1
+            show_question(message["content"], num)
             
     smallcol1 , smallcol2, smallcol3 = st.columns([1,1,1])
     options  = smallcol1.selectbox( "Select a question type to create",
@@ -67,13 +68,8 @@ with col2:
     types = smallcol2.selectbox("Select a question difficulty",
         ["Remembering", "Understanding", "Applying", "Analyzing", "Evaluating", "Creating"]
     )
-    if smallcol3.button("Answer", use_container_width=True):
-        with st.spinner("Generating Answer..."):
-            for message in st.session_state.messages:
-                if message["role"] == "assistant":
-                    with mes_container.chat_message(message["role"]):
-                        show_answer(message["content"])
-    
+    num_ques = smallcol3.number_input("Number of questions", min_value=1, max_value=10, value=5, step = 1)
+        
     if prompt := st.chat_input("Type some topic you want to practice!"):
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
@@ -82,17 +78,18 @@ with col2:
             st.markdown(prompt)
         
         # context = ss.store.get_big_context(retriever=retriever, query=prompt)
-        
+        num = 0
         with st.spinner("Teacher is creating questions..."):
             teacher = TeacherBot()
-            _response = teacher.create_question(context = ss.context)
+            _response = teacher.create_question(context = ss.context, question_type = types, num_questions = num_ques)
             
         if _response is not None:
             response = refactor(_response)
-
+            
             # Display assistant response in chat message container
             with mes_container.chat_message("assistant"):
-                show_question(response)
+                num += 1
+                show_question(response, id = num)
             # Add assistant response to chat history
             st.session_state.messages.append({"role": "assistant", "content": response})
         else:
