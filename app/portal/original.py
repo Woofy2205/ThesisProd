@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 from streamlit import session_state as ss
 from streamlit_pdf_viewer import pdf_viewer
 
-# os.chdir("D:/Project/ThesisProd/")
-os.chdir("C:/Users/Learning/Project/ThesisProd")
+os.chdir("D:/Project/ThesisProd/")
+# os.chdir("C:/Users/Learning/Project/ThesisProd")
 
 from core.ingestion.preprocessing.storage.FaissStore import FaissStore
 from core.llm.AssistantLLM import AssistantBot
@@ -112,5 +112,5 @@ if prompt := st.chat_input("Type some topic you want to practice!"):
     # Add assistant response to chat history
     st.session_state.messages.append({"role": "assistant", "content": _response})
 
-# os.chdir("D:/Project/ThesisProd/app/")
-os.chdir("C:/Users/Learning/Project/ThesisProd/app/")
+os.chdir("D:/Project/ThesisProd/app/")
+# os.chdir("C:/Users/Learning/Project/ThesisProd/app/")

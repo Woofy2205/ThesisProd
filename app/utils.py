@@ -1,9 +1,9 @@
+import math
 import os
 from typing import List, Union
-import math
 
-# os.chdir("D:/Project/ThesisProd/")
-os.chdir("C:/Users/Learning/Project/ThesisProd")
+os.chdir("D:/Project/ThesisProd/")
+# os.chdir("C:/Users/Learning/Project/ThesisProd")
 
 import streamlit as st
 from dotenv import load_dotenv
@@ -109,5 +109,5 @@ def show_question(response: Union[str, List[str]] = None, id: int = 0):
                 st.error(message)
                 st.error('Not this time :grimacing: Please Try again!')
 
-# os.chdir("D:/Project/ThesisProd/app/")
-os.chdir("C:/Users/Learning/Project/ThesisProd/app")
+os.chdir("D:/Project/ThesisProd/app/")
+# os.chdir("C:/Users/Learning/Project/ThesisProd/app")
