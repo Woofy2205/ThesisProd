@@ -4,17 +4,16 @@ from typing import Any, Dict, List, Optional
 
 from dotenv import load_dotenv
 from llama_index.core.llms import (CompletionResponse, CompletionResponseGen,
-                                    CustomLLM, LLMMetadata)
+                                   CustomLLM, LLMMetadata)
 from llama_index.core.llms.callbacks import llm_completion_callback
 from openai import OpenAI
-from core.llm.Prompt import (
-    original_greeting_prompt, 
-    original_instruction_questions, 
-    remembering_questions_prompt, 
-    understanding_questions_prompt, 
-    applying_questions_prompt, 
-    analyzing_questions_prompt
-)
+
+from core.llm.Prompt import (analyzing_questions_prompt,
+                             applying_questions_prompt,
+                             original_greeting_prompt,
+                             original_instruction_questions,
+                             remembering_questions_prompt,
+                             understanding_questions_prompt)
 
 load_dotenv()
 
@@ -107,9 +106,8 @@ class TeacherBot(CustomLLM):
         )
     
     def create_question(self, context: str, 
-                        ques_type: str = 'Remember',
+                        ques_type: str = None,
                         history: Optional[List[Dict[str, Any]]] = None,
-                        question_type: Optional[List[dict]] = None,
                         num_questions: int = 5,
                         total_options: int = 4,
                         num_correct_options: int = 1,

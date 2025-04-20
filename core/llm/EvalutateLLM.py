@@ -3,7 +3,7 @@ from typing import Any, List, Optional
 
 from dotenv import load_dotenv
 from llama_index.core.llms import (CompletionResponse, CompletionResponseGen,
-                                    CustomLLM, LLMMetadata)
+                                   CustomLLM, LLMMetadata)
 from llama_index.core.llms.callbacks import llm_completion_callback
 from openai import OpenAI
 

@@ -66,7 +66,7 @@ with col2:
     )
     
     types = smallcol2.selectbox("Select a question difficulty",
-        ["Remembering", "Understanding", "Applying", "Analyzing", "Evaluating", "Creating"]
+        ["Remember", "Understand", "Apply", "Analyze"]
     )
     num_ques = smallcol3.number_input("Number of questions", min_value=1, max_value=10, value=5, step = 1)
         
@@ -81,7 +81,7 @@ with col2:
         num = 0
         with st.spinner("Teacher is creating questions..."):
             teacher = TeacherBot()
-            _response = teacher.create_question(context = ss.context, question_type = types, num_questions = num_ques)
+            _response = teacher.create_question(context = ss.context, ques_type = types, num_questions = num_ques)
             
         if _response is not None:
             response = refactor(_response)
