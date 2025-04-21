@@ -7,11 +7,14 @@ from llama_index.core.llms import (CompletionResponse, CompletionResponseGen,
 from llama_index.core.llms.callbacks import llm_completion_callback
 from openai import OpenAI
 
+from core.llm.Prompt import (evaluate_greeting_prompt,
+                             evaluate_instruction_questions)
+
 load_dotenv()
 
 client = OpenAI()
 
-def complete(user_text: str,
+def get_response(user_text: str,
                 model: str = "gpt-3.5-turbo",
                 history: Optional[List[dict]] = None) -> str:
     """
@@ -22,7 +25,8 @@ def complete(user_text: str,
     :param history: Optional history of previous interactions.
     :return: The generated completion text.
     """
-    messages = [{"role": "system", "content": "You are a helpful assistant."}]
+    messages = [{"role": "system", "content": evaluate_greeting_prompt},
+                {"role": "user", "content": evaluate_instruction_questions}]
     if history:
         messages.extend(history)
     messages.append({"role": "user", "content": user_text})
@@ -39,11 +43,9 @@ def complete(user_text: str,
     except Exception as e:
         return f"Error: {e}"
 
-class AssistantOpenAIBot(CustomLLM):
+class EvaluateBot(CustomLLM):
     """
-    OpenAIBot is a custom LLM model that uses OpenAI's API to generate text completions.
-
-    :param model: str, default "gpt-4-turbo". The model name to use.
+    A custom LLM class for evaluating responses using OpenAI's API.
     """
     model: str = "gpt-3.5-turbo"
 
@@ -68,6 +70,33 @@ class AssistantOpenAIBot(CustomLLM):
             num_output=1,
             model_name=self.model
         )
+    
+    def evaluate_score(
+        self,
+        original_question: str,
+        student_answer: str,
+        correct_answer: str,
+        history: Optional[List[dict]] = None,
+        **kwargs: Any
+    ) -> str:
+        """
+        Evaluate the given prompt using the LLM.
+        """
+        prompt = f"""
+            question: {original_question}
+            correct_answers: {correct_answer}
+            student_answers: {student_answer}
+        """
+        try:
+            response_text = get_response(
+                user_text=prompt,
+                model=self.model,
+                history=history
+            )
+        except Exception as e:
+            response_text = f"Error: {e}"
+
+        return response_text
 
     @llm_completion_callback()
     def complete(
@@ -80,7 +109,7 @@ class AssistantOpenAIBot(CustomLLM):
         Generate a completion for the given prompt.
         """
         try:
-            response_text = complete(
+            response_text = get_response(
                 user_text=prompt,
                 model=self.model,
                 history=history
@@ -101,7 +130,7 @@ class AssistantOpenAIBot(CustomLLM):
         Generate a streamed completion for the given prompt.
         """
         try:
-            full_response = complete(
+            full_response = get_response(
                 user_text=prompt,
                 model=self.model,
                 history=history
@@ -116,6 +145,6 @@ class AssistantOpenAIBot(CustomLLM):
             yield CompletionResponse(text=accumulated_text, delta=char)
 
 if __name__ == "__main__":
-    llm = AssistantOpenAIBot(model="gpt-4-turbo")
+    llm = EvaluateBot(model="gpt-4-turbo")
     response = llm.complete("Hello, how are you?")
     print(response)

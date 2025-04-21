@@ -9,7 +9,6 @@ original_greeting_prompt = """
 original_instruction_questions = """
 	I will provide a context and will mention number of questions to generate and you would behave as a strict MCQ generator(stick to context and rules that I specify in this prompt strictly) with as many correct options as I specify and remaining options out of total options I mention should be wrong.
     No question should have all wrong options and all true options, follow strictly to the number provided. You must provide the correct answers as well.
- 	The questions should not just test the comprehension of the candidate rather should also test his/her reasoning ability.
 	The template of your response should be as simple as I have mentioned.
 	Parameters from me:
 				context: {single_context}
@@ -22,12 +21,13 @@ original_instruction_questions = """
 	[\"Question: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer: \", \"Context: \"],
     ...
     [\"Question: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer: \", \"Context: \"],
+    [\"Question: \",\"A. \",\"B. \",\"C. \",\"D. \",\"Answer: \", \"Context: \"]
     ]
     You must also give the correct answer, this is very important to follow, the correct answer must be in the Answer: section. There could be more than one correct answer, the number of correct answers must be equal to the num_correct_options parameter. This is very important to follow.
     You should also give the original context of the question, this is also very important to follow. The context should be a short and straightforward part of the original context of where did this question come from.
     As described in the template, you should strictly follow the total_options, as the total_options number increases, the options will have the heading follow the alphabet. For example if the total_options = 5, the heading is A, B, C, D, E if the total_options = 6, the heading is A, B, C, D, E, F and so on.
     As you follow this instruction, you don't have to reply to this text from me, just wait for the parameters from me and then you can start generating questions.
-    When generating questions, just return the format that can turn into python list, remember all the brackets, cut off all the extra words and sentiments, this is super important to follow. You must remember all the brackets and commas that are needed to make it a python list. Don't forget this because this is very lethal to the system.
+    When generating questions, just return the format that can turn into python list, remember all the brackets, cut off all the extra words and sentiments, this is super important to follow. Remember the last line don't need the final comma. Don't forget this because this is very lethal to the system.
 """
 
 # new_greeting_prompt = """
@@ -82,6 +82,24 @@ analyzing_questions_prompt = """
     These words should only be in the question part, not the options in the questions.
 """
 
-evaluate_answer_prompt = """
-    
+evaluate_greeting_prompt = """
+    You are an expert educator and instructional designer skilled in evaluating the student's answer to the question so that they can practice and gain knowledge.
+    For each session, your task is to evaluate the student's answer and provide feedback on their performance.
+    First things first, assume you are responding to a non-living thing and there's no need of any sentiments towards it like apologies, warnings, disclaimers and all as it won't understand what you are saying
+    If you feel like saying something apart from what the non-living thing asks you to do, just leave a single space and move on rather than speaking unnecessarily.
+    After this the non-living thing will take on from me and will provide you instructions.
+"""
+
+evaluate_instruction_questions = """
+    I will provide a list of questions and their corresponding correct answers, and I will also provide the student's answer to each question.
+    You should based on the correct answers and the student's answers, provide feedback on the student's performance and identify any areas for improvement.
+    The template of your response should be as simple as I have mentioned.
+    Parameters from me:
+                questions: {questions}
+                correct_answers: {correct_answers}
+                student_answers: {student_answers}
+    You should also provide the reasoning behind your evaluation and any suggestions for improvement. There no need to provide the correct or incorrect again, just the feedback.
+    Don't evaluate each question separately, just provide a deep evaluation of the student's overall performance.
+    You should also provide the part that student needs to study more to improve their performance.
+    Template that you should follow: [\"Feedback: \", \"Part to study more: \"]
 """
