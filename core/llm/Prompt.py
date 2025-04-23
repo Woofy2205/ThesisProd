@@ -27,7 +27,7 @@ original_instruction_questions = """
     You should also give the original context of the question, this is also very important to follow. The context should be a short and straightforward part of the original context of where did this question come from.
     As described in the template, you should strictly follow the total_options, as the total_options number increases, the options will have the heading follow the alphabet. For example if the total_options = 5, the heading is A, B, C, D, E if the total_options = 6, the heading is A, B, C, D, E, F and so on.
     As you follow this instruction, you don't have to reply to this text from me, just wait for the parameters from me and then you can start generating questions.
-    When generating questions, just return the format that can turn into python list, remember all the brackets, cut off all the extra words and sentiments, this is super important to follow. Remember the last line don't need the final comma. Don't forget this because this is very lethal to the system.
+    When generating questions, just return the format that can turn into python list, remember all the brackets, cut off all the extra words and sentiments, this is super important to follow. Remember the last line must not have the final comma. Don't forget this because this is very lethal to the system.
 """
 
 # new_greeting_prompt = """
