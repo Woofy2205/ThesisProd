@@ -58,7 +58,7 @@ def get_response(user_text: str,
 
 def get_response_no_context(user_text: str = None, 
                     history: Optional[List[Dict[str, Any]]] = None,
-                    model="gpt-3.5-turbo",
+                    model="gpt-4-turbo",
                     **kwargs) -> str:
     messages = [
         {"role": "system", "content": "You are a helpful assistant."},
@@ -85,7 +85,7 @@ class TeacherBot(CustomLLM):
     """
     Custom LLM class using OpenAI API.
     """
-    model: str = "gpt-3.5-turbo"
+    model: str = "gpt-4-turbo"
 
     def __init__(self, model: str = None, **kwargs) -> None:
         """
