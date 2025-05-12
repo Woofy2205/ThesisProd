@@ -125,7 +125,7 @@ class TeacherBot(CustomLLM):
                 correct_options: {num_correct_options}
             """
             response = get_response(prompt, self.model, ques_type, history)
-            # print(response)
+            print(response)
             try:
                 final_response = json.loads(response)
             except:

@@ -1,10 +1,10 @@
-from llama_index.core.postprocessor import LLMRerank
-from llama_index.core.llms import LLM
-from core.llm.CustomLLM import RagoonBot
-from typing import List, Tuple, Union, Optional
-from pydantic import PrivateAttr
+# from core.llm.CustomLLM import RagoonBot
+from typing import List, Optional, Tuple, Union
 
 from dotenv import load_dotenv
+from llama_index.core.llms import LLM
+from llama_index.core.postprocessor import LLMRerank
+from pydantic import PrivateAttr
 
 load_dotenv('../../.env')
 

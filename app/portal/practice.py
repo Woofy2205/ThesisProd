@@ -115,7 +115,7 @@ with col1:
         
         with st.spinner("Teacher choosing the best question..."):
             teacher = TeacherBot()
-            _response = teacher.create_question(context = context, question_type = types, num_questions = num_ques)
+            _response = teacher.create_question(context = context, ques_type = types, num_questions = num_ques)
         
         if _response is not None:
             response = refactor(_response)
