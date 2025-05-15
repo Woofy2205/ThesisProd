@@ -102,4 +102,5 @@ with col1:
                 pass
         else:
             st.error("Question generated failed! Please try again.")
-    os.chdir("C:/Users/Learning/Project/ThesisProd")
+            
+    os.chdir("C:/Users/Learning/Project/ThesisProd/app")
