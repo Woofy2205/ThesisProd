@@ -5,8 +5,7 @@ import streamlit as st
 from streamlit import session_state as ss
 from streamlit_pdf_viewer import pdf_viewer
 
-os.chdir("D:/Project/ThesisProd/")
-# os.chdir("C:/Users/Learning/Project/ThesisProd")
+os.chdir("C:/Users/Learning/Project/ThesisProd")
 
 from app.utils import *
 from core.ingestion.preprocessing.advanced.hyde.HyDe import HyDETransformer
@@ -16,7 +15,9 @@ st.title("Let's customize your learning 😁")
 tab1, tab2 = st.tabs(["PDF", "Video"])
 
 with tab1:
-    os.chdir("D:/Project/ThesisProd/")
+    
+    os.chdir("C:/Users/Learning/Project/ThesisProd")
+    
     if 'pdf' not in ss:
         ss['pdf'] = None
 
@@ -61,11 +62,12 @@ with tab1:
             subcol2.success("Test Bank is ready! 🎉")
         else:
             subcol2.error("Failed to create test bank.")
-    # os.chdir("C:/Users/Learning/Project/ThesisProd/app")
-    os.chdir("D:/Project/ThesisProd/app/")
+    os.chdir("C:/Users/Learning/Project/ThesisProd/app")
 
 with tab2:
-    os.chdir("D:/Project/ThesisProd/")
+    
+    os.chdir("C:/Users/Learning/Project/ThesisProd")
+    
     if 'video_url' not in ss:
         ss['video_url'] = None 
 
@@ -102,6 +104,7 @@ with tab2:
                 st.write(ss.context)
         else:
             st.info("Please enter a video URL.")
-    # os.chdir("C:/Users/Learning/Project/ThesisProd/app")
-    os.chdir("D:/Project/ThesisProd/app")
-os.chdir("D:/Project/ThesisProd/app")   
+            
+    os.chdir("C:/Users/Learning/Project/ThesisProd/app")
+    
+os.chdir("C:/Users/Learning/Project/ThesisProd/app") 

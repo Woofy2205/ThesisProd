@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-os.chdir(Path(os.getcwd()).parent)
+os.chdir("C:/Users/Learning/Project/ThesisProd")
 
 import streamlit as st
 from dotenv import load_dotenv
@@ -41,5 +41,7 @@ navigation = st.navigation(
 
                 
 if __name__ == "__main__":
-    os.chdir(Path(os.getcwd()).joinpath('app'))
+    
+    os.chdir("C:/Users/Learning/Project/ThesisProd/app")
+    
     navigation.run()

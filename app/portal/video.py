@@ -3,8 +3,7 @@ import os
 import streamlit as st
 from streamlit import session_state as ss
 
-os.chdir("D:/Project/ThesisProd/")
-# os.chdir("C:/Users/Learning/Project/ThesisProd")
+os.chdir("C:/Users/Learning/Project/ThesisProd")
 
 from app.utils import *
 from core.ingestion.preprocessing.advanced.hyde.HyDe import HyDETransformer
@@ -35,8 +34,7 @@ with col2:
         if ss.context:
             st.video(ss.video_url)
             st.write(ss.context)
-    # os.chdir("C:/Users/Learning/Project/ThesisProd/app")
-    os.chdir("D:/Project/ThesisProd/app")
+    os.chdir("C:/Users/Learning/Project/ThesisProd/app")
 
 with col1:
     if "messages" not in st.session_state:
@@ -78,5 +76,7 @@ with col1:
                 pass
         else:
             st.error("Question generated failed! Please try again.")
-    # os.chdir("C:/Users/Learning/Project/ThesisProd/app")
-    os.chdir("D:/Project/ThesisProd/app")
+            
+    os.chdir("C:/Users/Learning/Project/ThesisProd/app")
+
+os.chdir("C:/Users/Learning/Project/ThesisProd/app")

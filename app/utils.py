@@ -2,8 +2,7 @@ import math
 import os
 from typing import List, Union
 
-os.chdir("D:/Project/ThesisProd/")
-# os.chdir("C:/Users/Learning/Project/ThesisProd")
+os.chdir("C:/Users/Learning/Project/ThesisProd")
 
 import streamlit as st
 from dotenv import load_dotenv
@@ -123,5 +122,4 @@ def show_question(response: Union[str, List[str]] = None, id: int = 0):
             st.write(eval_response[1])
             
 
-os.chdir("D:/Project/ThesisProd/app/")
-# os.chdir("C:/Users/Learning/Project/ThesisProd/app")
+os.chdir("C:/Users/Learning/Project/ThesisProd/app")

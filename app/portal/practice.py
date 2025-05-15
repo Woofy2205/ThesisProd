@@ -6,8 +6,7 @@ from dotenv import load_dotenv
 from streamlit import session_state as ss
 from streamlit_pdf_viewer import pdf_viewer
 
-os.chdir("D:/Project/ThesisProd/")
-# os.chdir("C:/Users/Learning/Project/ThesisProd")
+os.chdir("C:/Users/Learning/Project/ThesisProd")
 
 from app.utils import *
 from core.ingestion.preprocessing.storage.FaissStore import FaissStore
@@ -60,8 +59,7 @@ with col2:
     if ss.store:
         retriever = ss.store.get_retriever(top_k = 5)        
         st.success("Test Bank is ready! 🎉")
-    # os.chdir("C:/Users/Learning/Project/ThesisProd/app")
-    os.chdir("D:/Project/ThesisProd/app/")
+    os.chdir("C:/Users/Learning/Project/ThesisProd")
 
 with col1:
     # Initialize chat history
@@ -104,5 +102,4 @@ with col1:
                 pass
         else:
             st.error("Question generated failed! Please try again.")
-    # os.chdir("C:/Users/Learning/Project/ThesisProd/app")
-    os.chdir("D:/Project/ThesisProd/app/")
+    os.chdir("C:/Users/Learning/Project/ThesisProd")
