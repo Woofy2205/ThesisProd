@@ -27,7 +27,7 @@ os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
 #     _store = Retriever(nodes = nodes)
 #     return _store
 
-st.header("DocumentsQA Practice Mode :books:")
+st.header("RAGQA Practice Mode :books:")
 
 if 'pdf' not in ss:
     ss['pdf'] = None
@@ -98,12 +98,10 @@ with col1:
         
         if _response is not None:
             response = refactor(_response)
-
-            # Display assistant response in chat message container
-            with mes_container.chat_message("assistant"):
-                show_question(response, id = num)
             # Add assistant response to chat history
             st.session_state.messages.append({"role": "assistant", "content": response})
+            with st.button("Let's start practicing!"):
+                pass
         else:
             st.error("Question generated failed! Please try again.")
     # os.chdir("C:/Users/Learning/Project/ThesisProd/app")
