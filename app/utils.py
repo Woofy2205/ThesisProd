@@ -19,7 +19,7 @@ from core.retriever.Retriever import Retriever
 
 def process_pdf(doc_path: str) -> list:
     faiss_store = FaissStore(documents_path = doc_path)
-    nodes = faiss_store.get_nodes()
+    nodes = faiss_store.get_nodes_semantic()
     return nodes
 
 def create_store(nodes: list):

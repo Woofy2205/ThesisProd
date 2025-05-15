@@ -6,7 +6,9 @@ import faiss
 from dotenv import load_dotenv
 from llama_index.core import SimpleDirectoryReader, VectorStoreIndex
 from llama_index.core.ingestion import IngestionPipeline
+from llama_index.core.node_parser import SemanticSplitterNodeParser
 from llama_index.core.text_splitter import SentenceSplitter
+from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.vector_stores.faiss import FaissVectorStore
 
 from core.ingestion.preprocessing.formatter.Formatter import TextCleaner
@@ -65,6 +67,34 @@ class FaissStore:
             print("No documents provided.")
         
         text_splitter = SentenceSplitter(chunk_size = _chunk_size, chunk_overlap = _chunk_overlap)
+        pipeline = IngestionPipeline(
+            transformations=[
+                TextCleaner(),
+                text_splitter,
+            ],
+            vector_store=self.vector_store,
+        )
+        nodes = pipeline.run(documents = self.documents)
+        return nodes
+    
+    def get_nodes_semantic(self, _buffer_size: int = 1, breakpoint_percentile_threshold: int = 95, embed_model: str = None, **kwargs):
+        """
+        Get the context for the specified query.
+        """
+        if self.vector_store is None:
+            print("No vector store provided.")
+        
+        if self.documents is None:
+            print("No documents provided.")
+        
+        if embed_model is None:
+            embed_model = OpenAIEmbedding()
+        
+        text_splitter = SemanticSplitterNodeParser(
+            buffer_size=_buffer_size,
+            breakpoint_percentile_threshold=breakpoint_percentile_threshold,
+            embed_model=OpenAIEmbedding()
+        )
         pipeline = IngestionPipeline(
             transformations=[
                 TextCleaner(),

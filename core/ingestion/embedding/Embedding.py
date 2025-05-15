@@ -1,10 +1,9 @@
+from llama_index.core import Settings, SimpleDirectoryReader, VectorStoreIndex
 from llama_index.embeddings.openai import OpenAIEmbedding
-from llama_index.core import Settings
-from llama_index.core import SimpleDirectoryReader, VectorStoreIndex
 
 EMBED_DIMENSION = 512
 
-class OAIEmbedding(OAIEmbedding):
+class OAIEmbedding(OpenAIEmbedding):
     def __init__(self,
                     model: str = "text-embedding-3-small", 
                     dimension: int = EMBED_DIMENSION):

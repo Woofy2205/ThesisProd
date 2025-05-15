@@ -41,19 +41,8 @@ if 'nodes' not in ss:
 col1, col2 = st.columns([2,2])
 
 with col2:
-    subcol1, subcol2 = st.columns([7,3])
-    pdf_file = subcol1.file_uploader("Upload PDF file", type=('pdf'), label_visibility = "collapsed")
-    
-    ss.pdf = pdf_file
+    pdf_file = ss.pdf
     save_folder = "app/static/pdfdir/"
-    
-    if subcol2.button("Process PDF 🚩", use_container_width=True):
-        with st.spinner("Teacher digesting the PDF"):
-            ss.nodes = process_pdf(save_folder)
-
-    if subcol2.button("Creating Test Bank👍", use_container_width=True):
-        with st.spinner("Teacher preparing questions..."):
-            ss.store = create_store(ss.nodes)
     
     if ss.pdf:
         binary_data = ss.pdf.getvalue()
@@ -79,25 +68,15 @@ with col1:
     if "messages" not in st.session_state:
         st.session_state.messages = []
     
-    mes_container = st.container(height=1150)
+    mes_container = st.container(height=600)
     num = 0
     # Display chat messages from history on app rerun
     for message in st.session_state.messages:
         with mes_container.chat_message(message["role"]):
             num += 1
             show_question(message["content"], num)
-            
-    # if st.button("Answer", use_container_width=True):
-    #     with st.spinner("Generating Answer..."):
-    #         for message in st.session_state.messages:
-    #             if message["role"] == "assistant":
-    #                 with mes_container.chat_message(message["role"]):
-    #                     show_answer_raw(message["content"])
     
-    smallcol1 , smallcol2, smallcol3 = st.columns([1,1,1])
-    options  = smallcol1.selectbox( "Select a question type to create",
-        ["Multiple Choice Question", "Fill in the Blank", "True or False", "Short Answer Question"]                        
-    )
+    smallcol2, smallcol3 = st.columns([1,1])
     
     types = smallcol2.selectbox("Select a question difficulty",
         ["Remember", "Understand", "Apply", "Analyze"]

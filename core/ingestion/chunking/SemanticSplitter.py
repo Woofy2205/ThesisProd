@@ -1,7 +1,8 @@
-from llama_index.core.node_parser import SemanticSplitterNodeParser
-from llama_index.embeddings.openai import OpenAIEmbedding
-from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.core import Document
+from llama_index.core.node_parser import SemanticSplitterNodeParser
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from llama_index.embeddings.openai import OpenAIEmbedding
+
 
 class SentenceSplitter(SemanticSplitterNodeParser):
     def __init__(self,
@@ -19,6 +20,9 @@ class SentenceSplitter(SemanticSplitterNodeParser):
         :param include_metadata: bool, default True. Whether to include metadata in the output.
         """
         self.embed_model = OpenAIEmbedding() if embed_model is None else HuggingFaceEmbedding(model_name=embed_model)
+        self.splitter = SemanticSplitterNodeParser(
+            buffer_size=1, breakpoint_percentile_threshold=95, embed_model=embed_model
+        )
         
         super().__init__(
             buffer_size=buffer_size,

@@ -29,12 +29,13 @@ def create_store(nodes: list):
 st.set_page_config(page_title="DocQA", page_icon="💬", layout="wide")
 
 home_page = st.Page("app/portal/home.py", title="Home", icon="🏠")
+settings_page = st.Page("app/portal/settings.py", title="Settings", icon="⚙️")
 practice_page = st.Page("app/portal/practice.py", title="Practice", icon="👨‍🏫")
 video_page = st.Page("app/portal/video.py", title="Video", icon="📹")
 
 
 navigation = st.navigation(
-    {"Home": [home_page], "Subpage": [practice_page, video_page]},
+    {"Home": [home_page, settings_page], "Subpage": [practice_page, video_page]},
     expanded=True,
 )
 

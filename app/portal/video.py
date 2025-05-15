@@ -28,31 +28,19 @@ audio_path = save_folder + '/audio_cont'
 json_path = save_folder + '/json_cont'
 
 col1, col2 = st.columns([2,2])
-with col1:
-    ss.video_url = st.text_input("Enter video URL here")
+with col2:
     if ss.video_url:
-        st.video(ss.video_url)
-        processor = AudioProcessor(audio_path = ss.video_url)
-        ss.audio_processor = processor
-        if ss.context is None:
-            with st.spinner("Processing Video..."):
-                vid_title = processor.process_download(video_url=ss.video_url, audio_path = audio_path)
-                processor.transcript(audio_path = audio_path, json_path = json_path, video_title=vid_title)
-                transcription_file = json_path + '/' + vid_title + '.json'
-                respond = processor.context_transcript(transcription_file)
-                context = ss.transformer.transform(respond)
-                ss.context = context[0][0]
-            st.write(ss.context)
-        else:
+        if ss.context:
+            st.video(ss.video_url)
             st.write(ss.context)
     # os.chdir("C:/Users/Learning/Project/ThesisProd/app")
     os.chdir("D:/Project/ThesisProd/app")
 
-with col2:
+with col1:
     if "messages" not in st.session_state:
         st.session_state.messages = []
     
-    mes_container = st.container(height=1000)
+    mes_container = st.container(height=600)
     num = 0
     # Display chat messages from history on app rerun
     for message in st.session_state.messages:
@@ -60,10 +48,7 @@ with col2:
             num += 1
             show_question(message["content"], num)
             
-    smallcol1 , smallcol2, smallcol3 = st.columns([1,1,1])
-    options  = smallcol1.selectbox( "Select a question type to create",
-        ["Multiple Choice Question", "Fill in the Blank", "True or False", "Short Answer Question"]                        
-    )
+    smallcol2, smallcol3 = st.columns([1,1])
     
     types = smallcol2.selectbox("Select a question difficulty",
         ["Remember", "Understand", "Apply", "Analyze"]
