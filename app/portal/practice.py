@@ -59,7 +59,8 @@ with col2:
     if ss.store:
         retriever = ss.store.get_retriever(top_k = 5)        
         st.success("Test Bank is ready! 🎉")
-    os.chdir("C:/Users/Learning/Project/ThesisProd")
+        
+    os.chdir("C:/Users/Learning/Project/ThesisProd/app")
 
 with col1:
     # Initialize chat history
