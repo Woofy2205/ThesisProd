@@ -1,3 +1,4 @@
+import json
 import os
 from typing import Any, List, Optional
 
@@ -93,10 +94,15 @@ class EvaluateBot(CustomLLM):
                 model=self.model,
                 history=history
             )
+            try:
+                final_response = json.loads(response_text)
+            except:
+                final_response = None
+                print("Error in generating evaluations: ", response_text)
         except Exception as e:
-            response_text = f"Error: {e}"
+            final_response = f"Error: {e}"
 
-        return response_text
+        return final_response
 
     @llm_completion_callback()
     def complete(

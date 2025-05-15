@@ -12,6 +12,7 @@ from streamlit_pdf_viewer import pdf_viewer
 
 from core.ingestion.preprocessing.storage.FaissStore import FaissStore
 from core.llm.AssistantLLM import AssistantBot
+from core.llm.EvalutateLLM import EvaluateBot
 from core.llm.TeacherLLM import TeacherBot
 from core.retriever.Retriever import Retriever
 
@@ -90,8 +91,11 @@ def show_question(response: Union[str, List[str]] = None, id: int = 0):
                 containers.append(container)
             submit_quiz = st.form_submit_button('Submit my answers')
         if submit_quiz:
+            eval = EvaluateBot()
             score = 0
+            real_answer = []
             for i in range(len(response)):
+                real_answer.append(response[i][5].replace("Answer: ", ""))
                 if answer_check(response[i][answers[i]], response[i][5].replace("Answer: ", "")):
                     containers[i].success("Correct🎉🎊")
                     containers[i].write(f"Context in documents: {response[i][6].replace('Context: ', '')}")
@@ -108,6 +112,16 @@ def show_question(response: Union[str, List[str]] = None, id: int = 0):
             else:
                 st.error(message)
                 st.error('Not this time :grimacing: Please Try again!')
+            
+            eval_response = eval.evaluate_score(
+                original_question = response,
+                student_answer = answers,
+                correct_answer = real_answer,
+            )
+            print(real_answer)
+            st.write(eval_response[0])
+            st.write(eval_response[1])
+            
 
 os.chdir("D:/Project/ThesisProd/app/")
 # os.chdir("C:/Users/Learning/Project/ThesisProd/app")
